@@ -4,7 +4,7 @@
 
 <script>
     const id = new URLSearchParams(window.location.search).get('id');
-    const urlScript = "TU_URL_DE_GAS_AQUI";
+    const urlScript = "https://script.google.com/macros/s/AKfycbyh5vSkr1p5c29bE_n3XSZUrB2RKQDsu7CN8bZqIi9PqCwPGJtCNYBT3Eyp8XvAnQvxCA/exec";
 
     fetch(urlScript + "?id=" + id)
         .then(response => response.json()) // Recibimos JSON
