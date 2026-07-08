@@ -1,34 +1,28 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f9fa; margin: 0; }
-        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%; }
-        h1 { color: #2d3436; margin-bottom: 10px; }
-        p { color: #636e72; font-size: 1.1em; }
-    </style>
-</head>
-<body>
-    <div class="card" id="mensaje">
-        <h2>Procesando...</h2>
-    </div>
+<div class="card" id="mensaje">
+    <h2>Procesando...</h2>
+</div>
 
-    <script>
-        const id = new URLSearchParams(window.location.search).get('id');
-        const urlScript = "https://script.google.com/macros/s/AKfycbxSsv1znm_-gX5re_z0yKeM15tza0osJs2EtMKq8uke_6PphPmOhqI2tdXrPvkyhWSSrw/exec";
+<script>
+    const id = new URLSearchParams(window.location.search).get('id');
+    const urlScript = "TU_URL_DE_GAS_AQUI";
 
-        fetch(urlScript + "?id=" + id)
-            .then(response => response.text())
-            .then(data => {
-                // Esto inserta el HTML que viene de Google dentro de la caja bonita
-                document.getElementById('mensaje').innerHTML = data;
-            })
-            .catch(() => {
-                document.getElementById('mensaje').innerHTML = "<h1>Error</h1><p>Intenta de nuevo más tarde.</p>";
-            });
-    </script>
-</body>
-</html>
+    fetch(urlScript + "?id=" + id)
+        .then(response => response.json()) // Recibimos JSON
+        .then(data => {
+            const container = document.getElementById('mensaje');
+            if (data.estado === 'exitoso') {
+                container.innerHTML = `
+                    <h1 class="success">¡Acceso Autorizado!</h1>
+                    <p>El desbloqueo <b>${data.id}</b> ha sido registrado correctamente.</p>
+                `;
+            } else {
+                container.innerHTML = `
+                    <h1 class="warning">Acceso Previo</h1>
+                    <p>El desbloqueo <b>${data.id}</b> ya había sido confirmado anteriormente.</p>
+                `;
+            }
+        })
+        .catch(() => {
+            document.getElementById('mensaje').innerHTML = "<h1>Error</h1><p>Intenta de nuevo más tarde.</p>";
+        });
+</script>
