@@ -18,7 +18,7 @@
 
     <script>
         const id = new URLSearchParams(window.location.search).get('id');
-        const urlScript = "https://script.google.com/macros/s/AKfycbyNJjCdlgeyQ9O3SIEC3xhSJ6K_Zv_S9nUMwrzo-0bklw11luoemF3_4wiB0HpUxd89cg/exec";
+        const urlScript = "https://script.google.com/macros/s/AKfycbxSsv1znm_-gX5re_z0yKeM15tza0osJs2EtMKq8uke_6PphPmOhqI2tdXrPvkyhWSSrw/exec";
 
         fetch(urlScript + "?id=" + id)
             .then(response => response.text())
