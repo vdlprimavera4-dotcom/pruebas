@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="mensaje">Procesando...</div>
+  <script>
+    const id = new URLSearchParams(window.location.search).get('id');
+    const urlScript = "TU_URL_DEL_SCRIPT_QUE_TERMINA_EN_/exec";
+
+    fetch(urlScript + "?id=" + id)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('mensaje').innerHTML = "<h1>" + data.estado + "</h1>";
+      })
+      .catch(err => {
+        document.getElementById('mensaje').innerHTML = "Error de conexión";
+      });
+  </script>
+</body>
+</html>
