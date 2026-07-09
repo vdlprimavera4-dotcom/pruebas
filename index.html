@@ -1,37 +1,54 @@
-<div class="card" id="mensaje">
-    <h2>Procesando...</h2>
-</div>
+<!DOCTYPE html>
+<html lang="es">
 
-<script>
-    const id = new URLSearchParams(window.location.search).get('id');
-    // Asegúrate de usar la URL que termina en /exec que te dio Google
-    const urlScript = "https://script.google.com/macros/s/AKfycbyh5vSkr1p5c29bE_n3XSZUrB2RKQDsu7CN8bZqIi9PqCwPGJtCNYBT3Eyp8XvAnQvxCA/exec";
+<head>
+    <meta charset="UTF-8">
+    <title>Portal VDL - Confirmación</title>
+    <style>
+        /* Aquí irían tus estilos para .card, .success, .warning, etc. */
+    </style>
+</head>
 
-    // Hacemos el fetch agregando el id
-    fetch(urlScript + "?id=" + id)
-        .then(response => {
-            // Verificamos si la respuesta es OK antes de intentar convertir a JSON
-            if (!response.ok) throw new Error('Error en la red');
-            return response.json();
-        })
-        .then(data => {
-            const container = document.getElementById('mensaje');
-            
-            // Lógica para mostrar el mensaje según el estado
-            if (data.estado === 'exitoso') {
-                container.innerHTML = `
+<body>
+
+    <div class="card" id="mensaje">
+        <h2>Procesando...</h2>
+    </div>
+
+    <script>
+        const id = new URLSearchParams(window.location.search).get('id');
+        // Asegúrate de usar la URL que termina en /exec que te dio Google
+        const urlScript = "https://script.google.com/macros/s/AKfycbyh5vSkr1p5c29bE_n3XSZUrB2RKQDsu7CN8bZqIi9PqCwPGJtCNYBT3Eyp8XvAnQvxCA/exec";
+
+        // Hacemos el fetch agregando el id
+        fetch(urlScript + "?id=" + id)
+            .then(response => {
+                // Verificamos si la respuesta es OK antes de intentar convertir a JSON
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json();
+            })
+            .then(data => {
+                const container = document.getElementById('mensaje');
+
+                // Lógica para mostrar el mensaje según el estado
+                if (data.estado === 'exitoso') {
+                    container.innerHTML = `
                     <h1 class="success">¡Acceso Autorizado!</h1>
                     <p>El desbloqueo <b>${data.id}</b> ha sido registrado correctamente.</p>
                 `;
-            } else if (data.estado === 'repetido') {
-                container.innerHTML = `
+                } else if (data.estado === 'repetido') {
+                    container.innerHTML = `
                     <h1 class="warning">Acceso Previo</h1>
                     <p>El desbloqueo <b>${data.id}</b> ya había sido confirmado anteriormente.</p>
                 `;
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('mensaje').innerHTML = "<h1>Error</h1><p>No se pudo conectar con el servidor.</p>";
-        });
-</script>
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('mensaje').innerHTML = "<h1>Error</h1><p>No se pudo conectar con el servidor.</p>";
+            });
+    </script>
+
+</body>
+
+</html>
