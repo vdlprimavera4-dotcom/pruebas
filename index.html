@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Acceso</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <style>
         body {
             margin: 0;
+            padding: 0;
             font-family: 'Lexend', sans-serif;
             background: #EFEFEF;
             display: flex;
@@ -36,6 +38,19 @@
             align-items: center;
             padding: 0 40px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .navbar::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            /* Cubre el espacio hacia arriba */
+            left: 0;
+            width: 100%;
+            height: 50px;
+            /* Altura suficiente para cubrir el notch */
+            background-color: #493b31;
         }
 
         .nav-links {
@@ -144,6 +159,25 @@
             }
         }
 
+        /* Ajuste para dispositivos móviles */
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                /* Cambia la fila a columna */
+                align-items: center;
+                /* Centra todo horizontalmente */
+                text-align: center;
+                /* Asegura que el texto se centre */
+            }
+
+            .footer-info {
+                text-align: center;
+                /* Centra el texto info en móvil */
+                margin-bottom: 20px;
+                /* Espacio entre info y logo */
+            }
+        }
+
         .footer {
             background-color: #493b31;
             color: #CEC3BA;
@@ -153,27 +187,33 @@
 
         .footer-content {
             display: flex;
-            align-items: flex-start;
-            gap: 40px;
-            margin: 0;
-        }
-
-        .footer-logo {
-            display: flex;
+            justify-content: space-between;
+            /* Mantiene los bloques en los extremos */
             align-items: center;
-            gap: 20px;
-        }
-
-        .logo-text {
-            text-align: left;
-            font-size: 12px;
-            letter-spacing: 1.2px;
+            /* Alinea verticalmente los dos bloques */
+            gap: 40px;
         }
 
         .footer-info {
-            text-align: rigth;
+            text-align: left;
+            /* Texto normal, alineado a la izquierda */
             font-size: 10.5px;
             line-height: 2;
+            flex: 1;
+            /* Ocupa el espacio disponible */
+        }
+
+        .footer-logo {
+            text-align: center;
+            /* Centra el texto dentro de su propio contenedor */
+            flex: 0 0 auto;
+            /* No se estira */
+        }
+
+        .logo-text {
+            text-align: center;
+            font-size: 12px;
+            letter-spacing: 1.2px;
         }
     </style>
 </head>
@@ -219,7 +259,7 @@
                     <div class="icon">✅</div>
                         <h1 class="success">Confirmación exitosa</h1>
                         <p style="color: #555; font-size: 17px;">
-                            Has confirmado exitosamente la ejecución de los bloqueos/desbloqueos solicitados para el día <strong style="color: #333; font-size: 19px;">${fechaFormateada}</strong>. El estatus ha sido actualizado en el sistema..
+                            Has confirmado la ejecución de los bloqueos/desbloqueos solicitados el día <strong style="color: #333; font-size: 19px;">${fechaFormateada}</strong>. El estatus ha sido actualizado en el sistema.
                         </p>
                     `;
                 } else {
@@ -227,18 +267,19 @@
                     <div class="icon">⚠️</div>
                         <h1 class="warning">Ya procesado</h1>
                         <p style="color: #555; font-size: 17px;">
-                            La confirmación de los cambios correspondientes al día <strong>${fechaFormateada}</strong> ya fue procesada anteriormente.
+                            La confirmación de los cambios solicitados el día <strong>${fechaFormateada}</strong> ya fue procesada.
                         </p>
                     `;
                 }
             })
             .catch(() => {
-                document.getElementById('mensaje').innerHTML =  `<div class="icon">❌</div><p>Intenta de nuevo más tarde.</p>`;
+                document.getElementById('mensaje').innerHTML = `<div class="icon">❌</div><p>Intenta de nuevo más tarde.</p>`;
             });
     </script>
 
     <footer class="footer">
         <div class="footer-content">
+
             <div class="footer-info">
                 <p>Vistas del Lago La Primavera 4, Portal de Residentes</p>
                 <p>Comite de Vecinos, enero 2025 - actualidad.</p>
@@ -254,8 +295,8 @@
                     <p>VISTAS DEL LAGO</p>
                     <p>LA PRIMAVERA 4</p>
                 </div>
-                <div class="separator"></div>
             </div>
+
         </div>
     </footer>
 </body>
