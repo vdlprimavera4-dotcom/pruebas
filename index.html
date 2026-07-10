@@ -7,18 +7,16 @@
     <title>Control de Acceso</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* --- TUS ESTILOS --- */
         body {
             margin: 0;
             font-family: 'Lexend', sans-serif;
-            background: #e9ecef;
+            background: #EFEFEF;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* 1. RESET BÁSICO para eliminar espacios indeseados */
         * {
             margin: 0;
             padding: 0;
@@ -76,7 +74,7 @@
         }
 
         .card {
-            background: white;
+            background: #FFFFFF;
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -114,6 +112,69 @@
         .btn-cerrar:hover {
             background-color: #3a2f28;
         }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .spinner-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #493b31;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .footer {
+            background-color: #493b31;
+            color: #CEC3BA;
+            padding: 30px 40px;
+            width: 100%;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            margin: 0;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-text {
+            text-align: left;
+            font-size: 12px;
+            letter-spacing: 1.2px;
+        }
+
+        .footer-info {
+            text-align: rigth;
+            font-size: 10.5px;
+            line-height: 2;
+        }
     </style>
 </head>
 
@@ -127,7 +188,11 @@
 
     <div class="card-container">
         <div class="card" id="mensaje">
-            <h1>Procesando...</h1>
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <p></p>
+                <p>Espere...</p>
+            </div>
         </div>
     </div>
 
@@ -140,26 +205,59 @@
             .then(data => {
                 const container = document.getElementById('mensaje');
 
+                function formatearFecha(id) {
+                    if (id.length === 8) {
+                        return `${id.substring(0, 2)}/${id.substring(2, 4)}/${id.substring(4, 8)}`;
+                    }
+                    return id;
+                }
+
+                const fechaFormateada = formatearFecha(data.id);
+
                 if (data.estado === 'exitoso') {
                     container.innerHTML = `
-                        <h1 class="success">✅ Registro Exitoso</h1>
+                    <div class="icon">✅</div>
+                        <h1 class="success">Confirmación exitosa</h1>
                         <p style="color: #555; font-size: 17px;">
-                            El desbloqueo <strong style="color: #333; font-size: 19px;">${data.id}</strong> ha sido validado en el sistema del Portal de Residentes.
+                            Has confirmado exitosamente la ejecución de los bloqueos/desbloqueos solicitados para el día <strong style="color: #333; font-size: 19px;">${fechaFormateada}</strong>. El estatus ha sido actualizado en el sistema..
                         </p>
                     `;
                 } else {
                     container.innerHTML = `
-                        <h1 class="warning">⚠️ Ya procesado</h1>
+                    <div class="icon">⚠️</div>
+                        <h1 class="warning">Ya procesado</h1>
                         <p style="color: #555; font-size: 17px;">
-                            El desbloqueo <strong style="color: #333; font-size: 19px;">${data.id}</strong> ya fue confirmado anteriormente por la administración.
+                            La confirmación de los cambios correspondientes al día <strong>${fechaFormateada}</strong> ya fue procesada anteriormente.
                         </p>
                     `;
                 }
             })
             .catch(() => {
-                document.getElementById('mensaje').innerHTML = "<h1>Error</h1><p>Intenta de nuevo más tarde.</p>";
+                document.getElementById('mensaje').innerHTML =  `<div class="icon">❌</div><p>Intenta de nuevo más tarde.</p>`;
             });
     </script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>Vistas del Lago La Primavera 4, Portal de Residentes</p>
+                <p>Comite de Vecinos, enero 2025 - actualidad.</p>
+                <br>
+                <p><strong>Razón Social:</strong> VDL LA PRIMAVERA 4 AC</p>
+                <p><strong>RFC:</strong> VPC250321HW7</p>
+                <br>
+                <p>Culiacán, Sinaloa.</p>
+            </div>
+
+            <div class="footer-logo">
+                <div class="logo-text">
+                    <p>VISTAS DEL LAGO</p>
+                    <p>LA PRIMAVERA 4</p>
+                </div>
+                <div class="separator"></div>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>
