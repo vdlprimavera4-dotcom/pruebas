@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Acceso</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <style>
         body {
             margin: 0;
@@ -17,6 +17,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
         }
 
         * {
@@ -25,33 +26,20 @@
             box-sizing: border-box;
         }
 
-        /* 2. NAVBAR EXACTA */
-        .navbar {
-            background-color: #493b31;
-            /* El café de tu diseño */
-            width: 100%;
-            height: 56px;
-            /* Altura controlada */
-            display: flex;
-            justify-content: flex-end;
-            /* Alinea todo a la derecha */
-            align-items: center;
-            padding: 0 40px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-
-        .navbar::before {
-            content: "";
-            position: absolute;
-            top: -50px;
-            /* Cubre el espacio hacia arriba */
-            left: 0;
-            width: 100%;
-            height: 50px;
-            /* Altura suficiente para cubrir el notch */
-            background-color: #493b31;
-        }
+.navbar {
+    background-color: #493b31;
+    width: 100%;
+    /* Esta línea es la clave: añade el espacio justo de la barra de estado */
+    padding-top: env(safe-area-inset-top); 
+    /* Ajusta la altura para incluir ese padding */
+    height: calc(56px + env(safe-area-inset-top)); 
+    
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 40px;
+    box-sizing: border-box; 
+}
 
         .nav-links {
             list-style: none;
@@ -259,7 +247,7 @@
                     <div class="icon">✅</div>
                         <h1 class="success">Confirmación exitosa</h1>
                         <p style="color: #555; font-size: 17px;">
-                            Has confirmado los bloqueos/desbloqueos solicitados el día <strong style="color: #333; font-size: 19px;">${fechaFormateada}</strong>.
+                            Has confirmado los cambios solicitados el día <strong style="color: #333; font-size: 19px;">${fechaFormateada}</strong>.
                         </p>
                     `;
                 } else {
